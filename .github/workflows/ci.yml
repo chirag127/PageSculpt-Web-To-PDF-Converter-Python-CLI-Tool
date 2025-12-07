@@ -1,0 +1,76 @@
+# CI Workflow for PageSculpt-Web-To-PDF-Converter-Python-CLI-Tool
+
+name: PageSculpt CI
+
+# Controls when the workflow will run
+on:
+  push:
+    branches: [ "main" ] # Run on push to main branch
+  pull_request:
+    branches: [ "main" ] # Run on pull requests targeting main branch
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This job builds and tests the application
+  build_and_test:
+    runs-on: ubuntu-latest # Use the latest Ubuntu runner
+
+    strategy:
+      matrix:
+        python-version: ["3.10", "3.11", "3.12", "3.13"] # Test with multiple Python versions
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: 'uv'
+
+      - name: Install uv and dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install uv
+          uv pip install --system -r requirements.txt
+          # Install dev dependencies if they exist
+          if [ -f requirements-dev.txt ]; then uv pip install --system -r requirements-dev.txt; fi
+
+      - name: Lint with Ruff
+        run: |
+          uv pip install ruff
+          ruff check .
+          ruff format --check .
+
+      - name: Test with Pytest
+        run: |
+          pytest --cov=pagesculpt --cov-report=xml # Generate coverage report for Codecov
+
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v4
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+        if: github.ref == 'refs/heads/main' && success() # Only upload on main branch push and if tests pass
+
+      - name: Build CLI Tool (Example - adjust as needed)
+        # This step is a placeholder. Real build steps for a Python CLI might involve packaging
+        # using setuptools, pyproject.toml, or specific build tools.
+        # Example: 'python -m build'
+        run: |
+          echo "Simulating build process..."
+          # Example: python -m build
+          # Ensure you have build tools installed if necessary: pip install build
+
+      - name: Archive Artifacts (Optional)
+        # This step can be used to archive built artifacts if needed.
+        # Example: uses: actions/upload-artifact@v3 with: name: pagesculpt-dist, path: dist/
+        run: echo "No build artifacts to archive in this basic example."
+
+# Notes:
+# - This workflow assumes a standard Python project structure.
+# - 'requirements.txt' should contain production dependencies.
+# - 'requirements-dev.txt' (if present) should contain development/test dependencies.
+# - Adjust the 'pytest' command for specific test discovery or arguments.
+# - The 'Build CLI Tool' step is a placeholder and should be replaced with actual packaging commands.
+# - Ensure 'CODECOV_TOKEN' is set in your GitHub repository secrets.

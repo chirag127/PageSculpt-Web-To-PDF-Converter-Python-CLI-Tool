@@ -1,0 +1,41 @@
+badges:
+  - name: Build Status
+    link: "https://github.com/chirag127/PageSculpt-Web-To-PDF-Converter-Python-CLI-Tool/actions/workflows/ci.yml"
+    query: "branch=main"
+    style: "flat-square"
+    logo: "github"
+    label: "Build"
+    color: "0077cc"
+  - name: Code Coverage
+    link: "https://codecov.io/gh/chirag127/PageSculpt-Web-To-PDF-Converter-Python-CLI-Tool"
+    query: "branch=main&show=percent&token=00000000-0000-0000-0000-000000000000"
+    style: "flat-square"
+    logo: "codecov"
+    label: "Coverage"
+    color: "20976b"
+  - name: Python Version
+    link: "https://www.python.org/"
+    query: "version=python"
+    style: "flat-square"
+    label: "Python"
+    color: "3776ab"
+  - name: Linter/Formatter
+    link: "https://github.com/charliermarsh/ruff"
+    query: "version=ruff"
+    style: "flat-square"
+    logo: "ruff"
+    label: "Ruff"
+    color: "41266b"
+  - name: License
+    link: "https://github.com/chirag127/PageSculpt-Web-To-PDF-Converter-Python-CLI-Tool/blob/main/LICENSE"
+    query: "license=cc-by-nc-4.0"
+    style: "flat-square"
+    label: "License"
+    color: "c91b1b"
+  - name: GitHub Stars
+    link: "https://github.com/chirag127/PageSculpt-Web-To-PDF-Converter-Python-CLI-Tool"
+    query: "stars=1&type=social"
+    style: "flat-square"
+    logo: "github"
+    label: "Stars"
+    color: "613281"
